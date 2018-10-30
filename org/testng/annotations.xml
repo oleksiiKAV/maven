@@ -1,0 +1,5 @@
+<root>
+    <item name='org.testng.Assert'>
+        <annotation name='java.lang.Deprecated'/>
+    </item>
+</root>
