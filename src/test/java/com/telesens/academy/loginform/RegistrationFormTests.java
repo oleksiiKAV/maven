@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 
 import java.util.Scanner;
 
-public class RegistrationFromTests {
+public class RegistrationFormTests {
 
     @Test
     public void testFirstNameValidation() {
