@@ -1,5 +1,7 @@
 package com.telesens.academy.lesson18.dao;
 
+import com.telesens.academy.lesson18.dao.impl.PhoneBookDAOImpl;
+import com.telesens.academy.lesson18.hometask.PhoneBookRecord;
 import com.telesens.academy.lesson18.hometask.Subscriber;
 import com.telesens.academy.lesson17.PropertyDemo;
 
@@ -22,8 +24,15 @@ public class DemoJDBC {
         //все абоненты в Листе
         List<Subscriber> list = subsDao.getAll();
         //удаление абонента
-        subsDao.remove(subsDao.findById(7));
+        subsDao.remove(subsDao.findById(666));
+        subsDao.remove(subsDao.findById(667));
         subsDao.close();
+
+        PhoneBookDAO recDao = new PhoneBookDAOImpl(PropertyDemo.readProperty("jdbc.url"));;
+        PhoneBookRecord phoneBookRecord = recDao.findByKeys("380500000003", 2L);
+        System.out.println(phoneBookRecord.toString());
+        recDao.close();
+
 
 
         //select();

@@ -29,7 +29,7 @@ public class TestDBMySQL {
                 System.out.println(String.format("%d| %-15s| %-15s| %s| %d",
                         id, firstName, lastName, gender, age));
             }
-            statement.executeUpdate("DELETE FROM abonent WHERE abonent_id=7");
+            //statement.executeUpdate("DELETE FROM abonent WHERE abonent_id=7");
             rs.close(); // закрываем рессурсы
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
