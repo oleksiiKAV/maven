@@ -56,9 +56,9 @@ public class OperatorDAOImpl extends BaseDAO implements OperatorDAO {
         try {
             PreparedStatement statement = connection.prepareStatement(SQL_SELECT_ALL);
             ResultSet rs = statement.executeQuery();
-            Operator operator = new Operator();
-            while (rs.next()) {
 
+            while (rs.next()) {
+                Operator operator = new Operator();
                 operator.setOperatorId((Long)(rs.getLong("id")));
                 operator.setName(rs.getString("name"));
                 operator.setAddress(rs.getString("address"));

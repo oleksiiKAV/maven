@@ -56,9 +56,9 @@ public class SubscriberDAOImpl extends BaseDAO implements SubscriberDAO {
         try {
             PreparedStatement statement = connection.prepareStatement(SQL_SELECT_ALL);
             ResultSet rs = statement.executeQuery();
-            Subscriber subscriber = new Subscriber();
-            while (rs.next()) {
 
+            while (rs.next()) {
+                Subscriber subscriber = new Subscriber();
                 subscriber.setId((Long)(rs.getLong("id")));
                 subscriber.setFirstName(rs.getString("first_name"));
                 subscriber.setLastName(rs.getString("last_name"));
