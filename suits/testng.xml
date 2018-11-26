@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<!--Конфигурация для testNG фреймворка-->
+<suite name="Base Suit">
+    <test name="firefox tests">
+        <parameter name="browser" value="firefox" />
+        <groups>
+                <run>
+                        <include name="LoginFalse"/>
+                </run>
+        </groups>
+        <classes>
+            <class name="com.telesens.academy.lesson20.LoginTest" />
+        </classes>
+    </test>
+
+    <test name="chrome tests">
+        <parameter name="browser" value="chrome" />
+        <groups>
+            <run>
+                <include name="LoginTrue"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="com.telesens.academy.lesson20.LoginTest" />
+        </classes>
+    </test>
+</suite>
