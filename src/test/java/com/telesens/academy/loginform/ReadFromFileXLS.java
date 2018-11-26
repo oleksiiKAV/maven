@@ -12,6 +12,7 @@ import java.lang.reflect.Array;
 import java.util.Arrays;
 
 public class ReadFromFileXLS {
+    //return array of rows from start to end rows (if only one row then this is equal) with test data from all cells (Count)
     public static String[][] readFromXLX (int startRowNumber, int endRowNumber, int cellsCount) {
         XSSFCell cell;
 
