@@ -2,6 +2,8 @@ package com.telesens.academy.lesson20;
 import java.util.regex.Pattern;
 import java.util.concurrent.TimeUnit;
 
+import com.telesens.academy.demoga.page.MainPage;
+import com.telesens.academy.demoga.page.YouAccountPage;
 import com.telesens.academy.lesson17.PropertyDemo;
 import com.telesens.academy.loginform.ReadFromFileXLS;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -44,51 +46,76 @@ public class LoginTest {
 
 
     @Test(dataProvider = "positiveLoginProvider", groups = "LoginTrue")
-        public void testCorrectLoginTestCase(String login, String password) throws Exception {
-            String strurl=PropertyDemo.readProperty("urladdress");
-            driver.get(strurl);
-            driver.findElement(By.id("account")).click();
-            driver.findElement(By.id("log")).click();
-            driver.findElement(By.id("log")).clear();
-            driver.findElement(By.id("log")).sendKeys(login);
-            driver.findElement(By.id("pwd")).clear();
-            driver.findElement(By.id("pwd")).sendKeys(password);
-            driver.findElement(By.id("login")).click();
-
-            Assert.assertNotEquals(driver.findElement(By.linkText("(Logout)")), null) ;
-
-            //driver.findElement(By.linkText("(Logout)")).click();
-            driver.close();
-        }
+    public void testCorrectLoginTestCase(String login, String password) throws Exception {
+        MainPage mainPage = new MainPage(driver);
+        mainPage.goToHome();
+        YouAccountPage youAccountPage = mainPage.clickToMyAccount();
+        youAccountPage.EnterLogin(login);
+        youAccountPage.EnterPwd(password);
+        youAccountPage.clickToLogin();
+        Assert.assertNotEquals(driver.findElement(By.linkText("(Logout)")), null) ;
+        //Assert.assertNotEquals(youAccountPage.ElementIsPresent(), null) ;
+        driver.close();
+    }
+//        public void testCorrectLoginTestCase(String login, String password) throws Exception {
+//            String strurl=PropertyDemo.readProperty("urladdress");
+//            driver.get(strurl);
+//            driver.findElement(By.id("account")).click();
+//            driver.findElement(By.id("log")).click();
+//            driver.findElement(By.id("log")).clear();
+//            driver.findElement(By.id("log")).sendKeys(login);
+//            driver.findElement(By.id("pwd")).clear();
+//            driver.findElement(By.id("pwd")).sendKeys(password);
+//            driver.findElement(By.id("login")).click();
+//            Assert.assertNotEquals(driver.findElement(By.linkText("(Logout)")), null) ;
+//            //driver.findElement(By.linkText("(Logout)")).click();
+//            driver.close();
+//        }
 
     @Test(dataProvider = "negativeLoginProvider", groups = "LoginFalse")
     public void IncorrectLoginTestCase(String login, String password, String errMessage) throws Exception { //if input correct - test failed
-        String strurl=PropertyDemo.readProperty("urladdress");
-        driver.get(strurl);
-        driver.findElement(By.id("account")).click();
-        driver.findElement(By.id("log")).click();
-        driver.findElement(By.id("log")).clear();
-        driver.findElement(By.id("log")).sendKeys(login);
-        driver.findElement(By.id("pwd")).click();
-        driver.findElement(By.id("pwd")).clear();
-        driver.findElement(By.id("pwd")).sendKeys(password);
-        driver.findElement(By.id("login")).click();
+        MainPage mainPage = new MainPage(driver);
+        mainPage.goToHome();
+        YouAccountPage youAccountPage = mainPage.clickToMyAccount();
+        youAccountPage.EnterLogin(login);
+        youAccountPage.EnterPwd(password);
+        youAccountPage.clickToLogin();
 
-        String errorShow = driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Your Account'])[1]/following::strong[1]")).getText();
-        //Assert.assertEquals(driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Your Account'])[1]/following::strong[1]")).getText(), "ERROR");
-        /*try {
-            assertEquals(driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Your Account'])[1]/following::strong[1]")).getText(), "ERROR");
-        } catch (Error e) {
-            verificationErrors.append(e.toString());
-        }*/
-        //Thread.sleep(3000); // bad practice
-        //WebElement message = (new WebDriverWait(driver, 7))
-         //       .until(ExpectedConditions
-          //              .presenceOfElementLocated(By.className("response")));
+        //String errorShow = driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Your Account'])[1]/following::strong[1]")).getText();
+        String errorShow = youAccountPage.ErrText();
+        //System.out.println(errorShow);
         Assert.assertEquals(errorShow,errMessage);
 
         driver.close();
     }
+
+//    public void IncorrectLoginTestCase(String login, String password, String errMessage) throws Exception { //if input correct - test failed
+//        String strurl=PropertyDemo.readProperty("urladdress");
+//        driver.get(strurl);
+//        driver.findElement(By.id("account")).click();
+//        driver.findElement(By.id("log")).click();
+//        driver.findElement(By.id("log")).clear();
+//        driver.findElement(By.id("log")).sendKeys(login);
+//        driver.findElement(By.id("pwd")).click();
+//        driver.findElement(By.id("pwd")).clear();
+//        driver.findElement(By.id("pwd")).sendKeys(password);
+//        driver.findElement(By.id("login")).click();
+//
+//        String errorShow = driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Your Account'])[1]/following::strong[1]")).getText();
+//        //Assert.assertEquals(driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Your Account'])[1]/following::strong[1]")).getText(), "ERROR");
+//        /*try {
+//            assertEquals(driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Your Account'])[1]/following::strong[1]")).getText(), "ERROR");
+//        } catch (Error e) {
+//            verificationErrors.append(e.toString());
+//        }*/
+//        //Thread.sleep(3000); // bad practice
+//        //WebElement message = (new WebDriverWait(driver, 7))
+//         //       .until(ExpectedConditions
+//          //              .presenceOfElementLocated(By.className("response")));
+//        Assert.assertEquals(errorShow,errMessage);
+//
+//        driver.close();
+//    }
 
 
         @AfterClass(alwaysRun = true)
@@ -103,6 +130,7 @@ public class LoginTest {
     @DataProvider(name="negativeLoginProvider")
     public Object[][] negativeLoginProvider() {
         Object newobj[][]=null;
+        //readFromXLX(start test row, end test row, cells - counts of data for test)
         newobj=ReadFromFileXLS.readFromXLX(2,3,3);
         return newobj;
      /*   return new Object[][]{
@@ -114,6 +142,7 @@ public class LoginTest {
     @DataProvider(name="positiveLoginProvider")
     public Object[][] positiveLoginProvider() {
         Object newobj[][]=null;
+        //readFromXLX(start test row, end test row, cells - counts of data for test)
         newobj=ReadFromFileXLS.readFromXLX(1,1,2);
         return newobj;
      /*   return new Object[][]{
